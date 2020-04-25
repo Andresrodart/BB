@@ -1,26 +1,157 @@
 grammar BB;
 import reglas_lexicas; //Reglas del analizador lexicográfico
+
+tokens { INDENT, DEDENT }
+
+@lexer::members {
+	// Una cola donde se almacenarán los tokens extra (ver la deinición de SALTO_DE_LINEA).
+	private java.util.LinkedList<Token> tokens = new java.util.LinkedList<>();
+	// La pila que lleva el registro del nivel de identación
+	private java.util.Stack<Integer> indents = new java.util.Stack<>();
+	// The amount of opened braces, brackets and parenthesis.
+	private int opened = 0;
+	// The most recently produced token.
+	private Token lastToken = null;
+	@Override
+	public void emit(Token t) {
+		super.setToken(t);
+		tokens.offer(t);
+	}
+
+  	@Override
+  	public Token nextToken() {
+		// Checa si el EOF sigue y además faltan desidentaciones (DEDENTs)
+		if (_input.LA(1) == EOF && !this.indents.isEmpty()) {
+	  		// Quita todos los tokens de EOF del buffer.
+	  		for (int i = tokens.size() - 1; i >= 0; i--) {
+				if (tokens.get(i).getType() == EOF) {
+		  			tokens.remove(i);
+				}
+	  		}
+
+	  		// Primero emite un salto de linea extra que sirva como el final del enunciado.
+	  		this.emit(commonToken(BBParser.SALTO_DE_LINEA, "\n"));
+
+			// Ahora emite todos los tokens de DEDENT necesarios.
+	  		while (!indents.isEmpty()) {
+				this.emit(createDedent());
+				indents.pop();
+	  		}
+
+	  		// Pon el EOF de regreso en el flujo de token.
+	  		this.emit(commonToken(BBParser.EOF, "<EOF>"));
+		}
+
+		Token next = super.nextToken();
+
+		if (next.getChannel() == Token.DEFAULT_CHANNEL) {
+			// Keep track of the last token on the default channel.
+			this.lastToken = next;
+		}
+
+		return tokens.isEmpty() ? next : tokens.poll();
+  	}
+
+	private Token createDedent() {
+		CommonToken dedent = commonToken(BBParser.DEDENT, "");
+		dedent.setLine(this.lastToken.getLine());
+		return dedent;
+	}
+
+	private CommonToken commonToken(int type, String text) {
+		int stop = this.getCharIndex() - 1;
+		int start = text.isEmpty() ? stop : stop - text.length() + 1;
+		return new CommonToken(this._tokenFactorySourcePair, type, DEFAULT_TOKEN_CHANNEL, start, stop);
+	}
+
+	//  Calcula la identación de los espacios que se proporcionaron
+	// 	sigueindo las siguientes reglas:
+	// 		"Las tabulaciones don reemplazadas (de izquierda a derecha)
+	//		 por uno a 8 espacios de forma tal que el número de caracteres, 
+	//		 inlcluido el reemplazo, sea multiplo de 8 [...]"
+	//  -- https://docs.python.org/3.1/reference/lexical_analysis.html#indentation
+	static int getIndentationCount(String spaces) {
+		int count = 0;
+		for (char ch : spaces.toCharArray()) {
+			switch (ch) {
+					case '\t':
+						count += 8 - (count % 8);
+						break;
+					default:
+						// A normal space char.
+						count++;
+				}
+			}
+
+			return count;
+		}
+
+  	boolean atStartOfInput(){
+		return super.getCharPositionInLine() == 0 && super.getLine() == 1;
+  	}
+}
+
 /************************
 	Reglas del Parser
 *************************/
-bb								: linea+;		
+bb								: (SALTO_DE_LINEA | enunciado)* EOF;
 
-linea      						: enunciado (SALTO_DE_LINEA | EOF);
+enunciado						: enunciado_complejo												#etiqueta_enunciado_complejo
+								| enunciado_simple													#etiqueta_enunciado_simple
+	 							;	
 
-enunciado	 					: declaracion_de_variable 											#etiqueta_declaracion_de_variable
-								| asignar_a_variable												#etiqueta_asignar_a_variable
-								;	
+enunciado_simple				: enunciado_pequegno (';' enunciado_pequegno)* (';')? SALTO_DE_LINEA;
 
-declaracion_de_variable			: TIPO asignar_a_variable;
+enunciado_pequegno				: expresion | enunciado_de_flujo | asignar_a_variable | asignacion_con_operacion | declaracion_de_variable | declaracion_de_lista;
+
+enunciado_complejo				: enunciado_de_eleccion | enunciado_mientras | declaracion_de_funcion;
+
+enunciado_de_eleccion			: SI prueba ':' bloque (O_SI prueba ':' bloque)* (SINO ':' bloque)?;
+
+enunciado_mientras				: 'mientras' prueba ':' bloque (SINO ':' bloque)?;
+
+enunciado_de_flujo				: retorno; 
+
+bloque							: retorno? enunciado_simple | SALTO_DE_LINEA INDENT enunciado+ retorno? DEDENT;
+
+prueba							: prueba_o (SI  prueba_o SINO prueba)?;
+
+prueba_o						: prueba_y (O prueba_y)*;
+
+prueba_y						: prueba_no (Y prueba_no)*;
+
+prueba_no						: NO prueba_no | comparacion;
+
+comparacion						: expresion (operador_de_comporacion expresion)*;
+
+operador_de_comporacion			: '<'|'>'|'=='|'>='|'<='|'!=';
+
+declaracion_de_funcion			: TIPO 'def' IDENTIFICADOR '(' parametros? ')' ':' bloque;
+
+declaracion_de_variable			: TIPO asignar_a_variable | TIPO IDENTIFICADOR;
+
+declaracion_de_lista			: 'lista' '<' TIPO '>' IDENTIFICADOR ( '=' '[' (expresion (',' expresion)*)? ']')?;
+
+parametros						: paramtetro (',' paramtetro)* (',')?;
+
+paramtetro						: declaracion_de_variable | IDENTIFICADOR;
+
+retorno							: 'regresa' (expresion)?;
 
 asignar_a_variable				: IDENTIFICADOR ASIGNACION expresion;
 
-expresion						: izquierda=expresion operador=(DIVISION|ASTERISRCO) derecha=expresion		#etiqueta_multiplicacion_division	
+asignacion_con_operacion		: IDENTIFICADOR ('+=' | '-=' | '*=' | '@=' | '/=' | '%=' | '&=' | '|=' | '^=' |'<<=' | '>>=' | '**=' | '//=') expresion;
+
+operador_ternario				: expresion SI expresion SINO expresion;
+
+
+expresion						: IDENTIFICADOR '(' parametros ')'											#etiqueta_de_llamada_a_funcion
+								| izquierda=expresion operador=(DIVISION|ASTERISRCO) derecha=expresion		#etiqueta_multiplicacion_division	
 								| izquierda=expresion operador=(SUMA|RESTA) derecha=expresion        		#etiqueta_suma__resta
-								| PARENTESISapertura expresion PARENTESIScierre 					#etiqueta_parentesis
-								| TEXTO 															#etiqueta_texto
-								| IDENTIFICADOR                										#etiqueta_identificador
-								| RESTA expresion  													#etiqueta_negacion
-								| ENTERO 															#etiqueta_entero
-								| DECIMAL															#etiqueta_decimal
-								;																	
+								| PARENTESISapertura expresion PARENTESIScierre 							#etiqueta_parentesis
+								| TEXTO 																	#etiqueta_texto
+								| IDENTIFICADOR                												#etiqueta_identificador
+								| RESTA expresion  															#etiqueta_complemento_negativo
+								| ENTERO 																	#etiqueta_entero
+								| DECIMAL																	#etiqueta_decimal
+								;
