@@ -9,7 +9,7 @@ entero def principal(entero a):
 	entero ca = 2
 	si  a > 10 :
 		a = 10
-	o_si a == 20:
+	o si a == 20:
 		a = 21
 	sino:
 		a = 0

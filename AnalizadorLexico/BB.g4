@@ -96,9 +96,7 @@ tokens { INDENT, DEDENT }
 *************************/
 bb								: (SALTO_DE_LINEA | enunciado)* EOF;
 
-enunciado						: enunciado_complejo												#etiqueta_enunciado_complejo
-								| enunciado_simple													#etiqueta_enunciado_simple
-	 							;	
+enunciado						: enunciado_complejo | enunciado_simple ;	
 
 enunciado_simple				: enunciado_pequegno (';' enunciado_pequegno)* (';')? SALTO_DE_LINEA;
 
@@ -106,31 +104,47 @@ enunciado_pequegno				: expresion | enunciado_de_flujo | asignar_a_variable | as
 
 enunciado_complejo				: enunciado_de_eleccion | enunciado_mientras | declaracion_de_funcion;
 
-enunciado_de_eleccion			: SI prueba ':' bloque (O_SI prueba ':' bloque)* (SINO ':' bloque)?;
+enunciado_de_eleccion			: caso_si caso_o_si* caso_sino?;
 
-enunciado_mientras				: 'mientras' prueba ':' bloque (SINO ':' bloque)?;
+caso_si							: SI prueba ':' bloque;
+
+caso_o_si						: O_SI prueba ':' bloque;
+
+caso_sino						: SINO ':' bloque;
+
+enunciado_mientras				: caso_mientras caso_sino?;
+
+caso_mientras					: 'mientras' prueba ':' bloque;
 
 enunciado_de_flujo				: retorno; 
 
-bloque							: retorno? enunciado_simple | SALTO_DE_LINEA INDENT enunciado+ retorno? DEDENT;
+bloque							: enunciado_simple 										#etiqueta_bloque_simple
+								| SALTO_DE_LINEA INDENT enunciado+ DEDENT				#etiqueta_bloque_complejo
+								;
 
-prueba							: prueba_o (SI  prueba_o SINO prueba)?;
+prueba							: prueba_o (SI  prueba_ternaria=prueba_o SINO respuesta_ternaria=prueba)?;
 
 prueba_o						: prueba_y (O prueba_y)*;
 
 prueba_y						: prueba_no (Y prueba_no)*;
 
-prueba_no						: NO prueba_no | comparacion;
+prueba_no						: NO prueba_no 	#etiqueta_prueba_no
+								| comparacion	#etiqueta_prueba_no_comparacion
+								;
 
-comparacion						: expresion (operador_de_comporacion expresion)*;
+comparacion						: expresion pareja_de_comparacion*;
+
+pareja_de_comparacion			: operador_de_comporacion expresion;
 
 operador_de_comporacion			: '<'|'>'|'=='|'>='|'<='|'!=';
 
-declaracion_de_funcion			: TIPO 'def' IDENTIFICADOR '(' parametros? ')' ':' bloque;
+declaracion_de_funcion			: tipo=TIPO 'def' id=IDENTIFICADOR '(' parametros? ')' ':' bloque;
 
-declaracion_de_variable			: TIPO asignar_a_variable | TIPO IDENTIFICADOR;
+declaracion_de_variable			: tipo=TIPO asignar_a_variable 			#declaracion_de_variable_con_asignacion
+								| tipo=TIPO id=IDENTIFICADOR			#declaracion_de_variable_sin_asignacion
+								;
 
-declaracion_de_lista			: 'lista' '<' TIPO '>' IDENTIFICADOR ( '=' '[' (expresion (',' expresion)*)? ']')?;
+declaracion_de_lista			: 'lista' '<' tipo=TIPO '>' id=IDENTIFICADOR ( '=' '[' (expresion (',' expresion)*)? ']')?;
 
 parametros						: paramtetro (',' paramtetro)* (',')?;
 
@@ -149,9 +163,9 @@ expresion						: IDENTIFICADOR '(' parametros ')'											#etiqueta_de_llamada
 								| izquierda=expresion operador=(DIVISION|ASTERISRCO) derecha=expresion		#etiqueta_multiplicacion_division	
 								| izquierda=expresion operador=(SUMA|RESTA) derecha=expresion        		#etiqueta_suma__resta
 								| PARENTESISapertura expresion PARENTESIScierre 							#etiqueta_parentesis
-								| TEXTO 																	#etiqueta_texto
-								| IDENTIFICADOR                												#etiqueta_identificador
 								| RESTA expresion  															#etiqueta_complemento_negativo
-								| ENTERO 																	#etiqueta_entero
-								| DECIMAL																	#etiqueta_decimal
+								| IDENTIFICADOR                												#etiqueta_identificador
+								| TEXTO 																	#etiqueta_valor_atomico
+								| ENTERO 																	#etiqueta_valor_atomico
+								| DECIMAL																	#etiqueta_valor_atomico
 								;

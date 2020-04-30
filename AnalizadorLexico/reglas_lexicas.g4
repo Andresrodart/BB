@@ -14,7 +14,7 @@ fragment ESC 					: '\\"' | '\\\\';
 /*  Operadores lógicos	*/
 SI								: 'si';
 ES								: 'es';
-O_SI							: 'o_si';
+O_SI							: 'o si';
 SINO							: 'sino';
 NO								: 'no';
 O								: 'o';
