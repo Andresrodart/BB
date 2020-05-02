@@ -149,10 +149,8 @@ declaracion_de_lista			: 'lista' '<' tipo=TIPO '>' id=identificador ( '=' '[' (e
 parametros						: parametro (',' parametro)* (',')?;
 
 parametro						: declaracion_de_variable 	#parametro_funcion
-								| identificador				#parametro_llamada
+								| expresion					#parametro_llamada
 								;
-
-parametro_imprime				: (parametro|expresion) (',' (parametro|expresion))* (',')?;
 
 retorno							: 'regresa' expresion?;
 
@@ -164,8 +162,7 @@ operador_ternario				: expresion SI prueba_ternaria=expresion SINO respuesta_ter
 
 identificador					: IDENTIFICADOR;
 
-expresion						: 'imprime' '(' parametro_imprime ')'										#etiqueta_imprime
-								| id=identificador '(' parametros ')'										#etiqueta_de_llamada_a_funcion
+expresion						: identificador '(' parametros ')'										#etiqueta_de_llamada_a_funcion
 								| izquierda=expresion operador=(DIVISION|ASTERISRCO) derecha=expresion		#etiqueta_multiplicacion_division	
 								| izquierda=expresion operador=(SUMA|RESTA) derecha=expresion        		#etiqueta_suma__resta
 								| PARENTESISapertura expresion PARENTESIScierre 							#etiqueta_parentesis

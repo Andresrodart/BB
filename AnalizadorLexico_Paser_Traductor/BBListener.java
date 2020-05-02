@@ -313,16 +313,6 @@ public interface BBListener extends ParseTreeListener {
 	 */
 	void exitParametro_llamada(BBParser.Parametro_llamadaContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link BBParser#parametro_imprime}.
-	 * @param ctx the parse tree
-	 */
-	void enterParametro_imprime(BBParser.Parametro_imprimeContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link BBParser#parametro_imprime}.
-	 * @param ctx the parse tree
-	 */
-	void exitParametro_imprime(BBParser.Parametro_imprimeContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link BBParser#retorno}.
 	 * @param ctx the parse tree
 	 */
@@ -408,18 +398,6 @@ public interface BBListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitEtiqueta_suma__resta(BBParser.Etiqueta_suma__restaContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code etiqueta_imprime}
-	 * labeled alternative in {@link BBParser#expresion}.
-	 * @param ctx the parse tree
-	 */
-	void enterEtiqueta_imprime(BBParser.Etiqueta_imprimeContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code etiqueta_imprime}
-	 * labeled alternative in {@link BBParser#expresion}.
-	 * @param ctx the parse tree
-	 */
-	void exitEtiqueta_imprime(BBParser.Etiqueta_imprimeContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code etiqueta_parentesis}
 	 * labeled alternative in {@link BBParser#expresion}.

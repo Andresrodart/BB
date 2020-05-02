@@ -363,18 +363,6 @@ public class BBBaseListener implements BBListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParametro_imprime(BBParser.Parametro_imprimeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitParametro_imprime(BBParser.Parametro_imprimeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterRetorno(BBParser.RetornoContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -466,18 +454,6 @@ public class BBBaseListener implements BBListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitEtiqueta_suma__resta(BBParser.Etiqueta_suma__restaContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterEtiqueta_imprime(BBParser.Etiqueta_imprimeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitEtiqueta_imprime(BBParser.Etiqueta_imprimeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -179,7 +179,7 @@ public class BB2CPP {
 				String parametros = getSTR(ctx.parametros());
 				if(getSTR(ctx.identificador()).equalsIgnoreCase("main"))
 					buf.add("int argc, char const *argv[]");
-				else if(parametros.equalsIgnoreCase("null")) buf.add(parametros);
+				else if(!parametros.equalsIgnoreCase("null")) buf.add(parametros);
 			} catch (Exception e) {
 				//TODO: handle exception
 			}
@@ -221,14 +221,7 @@ public class BB2CPP {
 			setSTR(ctx, getSTR(ctx.getChild(0)));
 		}
 		public void exitParametro_llamada(BBParser.Parametro_llamadaContext ctx) {
-			setSTR(ctx, ctx.getText());
-		}
-		public void exitParametro_imprime(BBParser.Parametro_imprimeContext ctx) {
-			StringJoiner buf =  new StringJoiner(", ");
-			for (int i = 0; i < ctx.getChildCount(); i++)
-				if(ctx.getChild(i).getText().contains(",")) buf.add("\"  \"");
-				else buf.add(getSTR(ctx.getChild(i)));
-			setSTR(ctx, buf.toString());
+			setSTR(ctx, getSTR(ctx.expresion()));
 		}
 		public void exitRetorno(BBParser.RetornoContext ctx) {
 			BBParser.ExpresionContext ectx = ctx.expresion();
@@ -259,13 +252,6 @@ public class BB2CPP {
 			String res = getSTR(ctx.izquierda) + ctx.operador.getText() + getSTR(ctx.derecha);
 			setSTR(ctx, res);
 		}
-		public void exitEtiqueta_imprime(BBParser.Etiqueta_imprimeContext ctx) {
-			StringJoiner buf =  new StringJoiner(" ");
-			buf.add("std::cout << ");
-			buf.add(getSTR(ctx.parametro_imprime()).replaceAll(",", " << "));
-			buf.add(" << std::endl");
-			setSTR(ctx, buf.toString());
-		}
 		public void exitEtiqueta_parentesis(BBParser.Etiqueta_parentesisContext ctx) {
 			String res = "(" + getSTR(ctx.expresion()) + ")";
 			setSTR(ctx, res);
@@ -282,8 +268,17 @@ public class BB2CPP {
 		}
 		public void exitEtiqueta_de_llamada_a_funcion(BBParser.Etiqueta_de_llamada_a_funcionContext ctx) {
 			BBParser.ParametrosContext pctx = ctx.parametros();
-			String res = getSTR(ctx.identificador()) + getSTR(pctx);
-			setSTR(ctx, res);
+			BBParser.IdentificadorContext ictx = ctx.identificador();
+			if(getSTR(ictx).equals("imprime")){
+				StringJoiner buf =  new StringJoiner(" ");
+				buf.add("std::cout << ");
+				buf.add(getSTR(pctx).replaceAll(",", " << \" \" <<"));
+				buf.add(" << std::endl");
+				setSTR(ctx, buf.toString());	
+			}else{
+				String res = getSTR(ctx.identificador()) + "( " + getSTR(pctx) + " )";
+				setSTR(ctx, res);
+			}
 		}
 		public void exitEtiqueta_valor_atomico(BBParser.Etiqueta_valor_atomicoContext ctx) {
 			setSTR(ctx, ctx.getText());

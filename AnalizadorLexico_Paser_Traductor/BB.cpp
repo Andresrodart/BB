@@ -3,6 +3,9 @@ int64_t a = 2*(2+3*8/2);
 double b = 2.0;
 std::string andr_s = "andrés";
 std::string cadena = "hola";
+void mi_imprime ( std::string s ) {
+	std::cout <<  s << " " << 2 << " " << "hola"  << std::endl;
+}
 int main ( int argc, char const *argv[] ) {
 	std::string pedro = "hola";
 	int64_t ca = 2;
@@ -17,6 +20,6 @@ int main ( int argc, char const *argv[] ) {
 		a+=1;
 	}
 	std::vector<int64_t> mi_lista { 1, 2, 3, 4 };
-	std::cout <<  ca <<  "  " <<  2 <<  "  " <<  "hola"  << std::endl;
+	mi_imprime( "mi_funcion" );
 	return ca+2;
 }
