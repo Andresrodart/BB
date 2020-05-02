@@ -1,10 +1,9 @@
-a = 2 * (2 + 3 * 8 / 2)
 entero a = 2 * (2 + 3 * 8 /2)
 decimal b = 2.0
 texto andrés = 'andrés'
 texto cadena = 'hola'
 
-entero def principal(entero a):
+entero def principal():
 	texto pedro = 'hola'
 	entero ca = 2
 	si  a > 10 :
@@ -16,4 +15,5 @@ entero def principal(entero a):
 	mientras a < 10 :
 		a += 1
 	lista <entero> mi_lista = [1, 2, 3 , 4]
+	imprime(ca, 2, 'hola')
 	regresa ca + 2

@@ -138,34 +138,40 @@ pareja_de_comparacion			: operador_de_comporacion expresion;
 
 operador_de_comporacion			: '<'|'>'|'=='|'>='|'<='|'!=';
 
-declaracion_de_funcion			: tipo=TIPO 'def' id=IDENTIFICADOR '(' parametros? ')' ':' bloque;
+declaracion_de_funcion			: tipo=TIPO 'def' id=identificador '(' parametros? ')' ':' bloque;
 
 declaracion_de_variable			: tipo=TIPO asignar_a_variable 			#declaracion_de_variable_con_asignacion
-								| tipo=TIPO id=IDENTIFICADOR			#declaracion_de_variable_sin_asignacion
+								| tipo=TIPO id=identificador			#declaracion_de_variable_sin_asignacion
 								;
 
-declaracion_de_lista			: 'lista' '<' tipo=TIPO '>' id=IDENTIFICADOR ( '=' '[' (expresion (',' expresion)*)? ']')?;
+declaracion_de_lista			: 'lista' '<' tipo=TIPO '>' id=identificador ( '=' '[' (expresion (',' expresion)*)? ']')?;
 
-parametros						: paramtetro (',' paramtetro)* (',')?;
+parametros						: parametro (',' parametro)* (',')?;
 
-paramtetro						: declaracion_de_variable | IDENTIFICADOR;
+parametro						: declaracion_de_variable 	#parametro_funcion
+								| identificador				#parametro_llamada
+								;
 
-retorno							: 'regresa' (expresion)?;
+parametro_imprime				: (parametro|expresion) (',' (parametro|expresion))* (',')?;
 
-asignar_a_variable				: IDENTIFICADOR ASIGNACION expresion;
+retorno							: 'regresa' expresion?;
 
-asignacion_con_operacion		: IDENTIFICADOR ('+=' | '-=' | '*=' | '@=' | '/=' | '%=' | '&=' | '|=' | '^=' |'<<=' | '>>=' | '**=' | '//=') expresion;
+asignar_a_variable				: id=identificador ASIGNACION expresion;
 
-operador_ternario				: expresion SI expresion SINO expresion;
+asignacion_con_operacion		: id=identificador op=('+=' | '-=' | '*=' | '@=' | '/=' | '%=' | '&=' | '|=' | '^=' |'<<=' | '>>=' | '**=' | '//=') expresion;
 
+operador_ternario				: expresion SI prueba_ternaria=expresion SINO respuesta_ternaria=expresion;
 
-expresion						: IDENTIFICADOR '(' parametros ')'											#etiqueta_de_llamada_a_funcion
+identificador					: IDENTIFICADOR;
+
+expresion						: 'imprime' '(' parametro_imprime ')'										#etiqueta_imprime
+								| id=identificador '(' parametros ')'										#etiqueta_de_llamada_a_funcion
 								| izquierda=expresion operador=(DIVISION|ASTERISRCO) derecha=expresion		#etiqueta_multiplicacion_division	
 								| izquierda=expresion operador=(SUMA|RESTA) derecha=expresion        		#etiqueta_suma__resta
 								| PARENTESISapertura expresion PARENTESIScierre 							#etiqueta_parentesis
 								| RESTA expresion  															#etiqueta_complemento_negativo
-								| IDENTIFICADOR                												#etiqueta_identificador
-								| TEXTO 																	#etiqueta_valor_atomico
+								| identificador                												#etiqueta_identificador
+								| TEXTO 																	#etiqueta_valor_texto
 								| ENTERO 																	#etiqueta_valor_atomico
 								| DECIMAL																	#etiqueta_valor_atomico
 								;
