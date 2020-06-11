@@ -1,12 +1,15 @@
 entero a = 2 * (2 + 3 * 8 /2)
 decimal b = 2.0
-texto andrés = 'andrés'
+texto andrés = 'andrés, es, raro'
 texto cadena = 'hola'
 
-nada def mi_imprime(texto s):
-	imprime(s, 2, 'hola')
+nada mi_imprime(texto s, entero a):
+	imprime(s, 2, andrés, a)
 
-entero def principal():
+entero suma(entero a, entero b):
+	regresa a + b
+
+entero principal():
 	texto pedro = 'hola'
 	entero ca = 2
 	si  a > 10 :
@@ -18,5 +21,6 @@ entero def principal():
 	mientras a < 10 :
 		a += 1
 	lista <entero> mi_lista = [1, 2, 3 , 4]
-	mi_imprime('mi_funcion')
+	entero sum = suma(2, a)
+	mi_imprime('mi_funcion', sum)
 	regresa ca + 2

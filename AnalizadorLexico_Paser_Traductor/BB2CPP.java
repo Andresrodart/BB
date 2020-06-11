@@ -9,6 +9,7 @@ import java.io.File;  // Import the File class
 import java.io.IOException;  // Import the IOException class to handle errors
 import java.io.FileWriter;   // Import the FileWriter class
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 /**
  * BB2CPP
@@ -35,7 +36,7 @@ public class BB2CPP {
 				case "entero":
 					return "int64_t";
 				case "texto":
-					return "std::string";
+					return "std::wstring";
 				case "decimal":
 					return "double";
 				case "nada":
@@ -184,7 +185,8 @@ public class BB2CPP {
 				//TODO: handle exception
 			}
 			buf.add(")");
-			buf.add(getSTR(bctx));
+			if(getSTR(ctx.identificador()).equalsIgnoreCase("main")) buf.add("{\n#ifdef _WIN32\n_setmode(_fileno(stdout), 0x00020000); //Make output use UTF-16\n#endif\n#ifdef linux\nstd::wcout.sync_with_stdio(false);\nstd::wcout.imbue(std::locale(\"en_US.utf8\"));\n#endif\n" + getSTR(bctx).substring(1));
+			else buf.add(getSTR(bctx));
 			setSTR(ctx, buf.toString());
 		}
 		public void exitDeclaracion_de_variable_con_asignacion(BBParser.Declaracion_de_variable_con_asignacionContext ctx) {
@@ -271,11 +273,17 @@ public class BB2CPP {
 			BBParser.IdentificadorContext ictx = ctx.identificador();
 			if(getSTR(ictx).equals("imprime")){
 				StringJoiner buf =  new StringJoiner(" ");
-				buf.add("std::cout << ");
+				buf.add("std::wcout << ");
 				buf.add(getSTR(pctx).replaceAll(",", " << \" \" <<"));
 				buf.add(" << std::endl");
 				setSTR(ctx, buf.toString());	
-			}else{
+			}else if(getSTR(ictx).equals("recibe")){
+				StringJoiner buf =  new StringJoiner(" ");
+				buf.add("std::cin >> ");
+				buf.add(getSTR(pctx).replaceAll(",", " >> "));
+				setSTR(ctx, buf.toString());
+			}
+			else{
 				String res = getSTR(ctx.identificador()) + "( " + getSTR(pctx) + " )";
 				setSTR(ctx, res);
 			}
@@ -284,7 +292,7 @@ public class BB2CPP {
 			setSTR(ctx, ctx.getText());
 		}
 		public void exitEtiqueta_valor_texto(BBParser.Etiqueta_valor_textoContext ctx) {
-			setSTR(ctx, ctx.getText().replaceAll("'", "\""));
+			setSTR(ctx, "L" + ctx.getText().replaceAll("'", "\""));
 		}
 	}	
 
@@ -296,7 +304,7 @@ public class BB2CPP {
 				output = true;
         String inputFile = args[0];
         InputStream is  = new FileInputStream(inputFile);
-        CharStream  input = CharStreams.fromFileName(inputFile);
+        CharStream  input = CharStreams.fromFileName(inputFile, StandardCharsets.UTF_8);
         BBLexer lexer = new BBLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         BBParser parser = new BBParser(tokens);
@@ -307,10 +315,11 @@ public class BB2CPP {
         EmisorCPP converter = new EmisorCPP();
         walker.walk(converter, tree);
 		try {
-			FileWriter myWriter = new FileWriter("BB.cpp");
-			myWriter.write("#include <bits/stdc++.h>\n");
-			myWriter.write(converter.getSTR(tree));
-			myWriter.close();
+			Writer out = new BufferedWriter(new OutputStreamWriter( new FileOutputStream("BB.cpp"), "UTF-8"));
+			//FileWriter myWriter = new FileWriter("BB.cpp");
+			out.write("#include <bits/stdc++.h>\n#ifdef _WIN32\n#include <fcntl.h>\n#endif\n#include <bits/stdc++.h>\n");
+			out.write(converter.getSTR(tree));
+			out.close();
 		} catch (IOException e) {
 			System.out.println("An error occurred.");
 			e.printStackTrace();

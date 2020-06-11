@@ -138,7 +138,7 @@ pareja_de_comparacion			: operador_de_comporacion expresion;
 
 operador_de_comporacion			: '<'|'>'|'=='|'>='|'<='|'!=';
 
-declaracion_de_funcion			: tipo=TIPO 'def' id=identificador '(' parametros? ')' ':' bloque;
+declaracion_de_funcion			: tipo=TIPO id=identificador '(' parametros? ')' ':' bloque;
 
 declaracion_de_variable			: tipo=TIPO asignar_a_variable 			#declaracion_de_variable_con_asignacion
 								| tipo=TIPO id=identificador			#declaracion_de_variable_sin_asignacion
