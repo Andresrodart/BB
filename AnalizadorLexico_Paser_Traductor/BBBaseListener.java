@@ -423,6 +423,18 @@ public class BBBaseListener implements BBListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterFuncion_recibe(BBParser.Funcion_recibeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFuncion_recibe(BBParser.Funcion_recibeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterEtiqueta_multiplicacion_division(BBParser.Etiqueta_multiplicacion_divisionContext ctx) { }
 	/**
 	 * {@inheritDoc}

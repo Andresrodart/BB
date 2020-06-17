@@ -363,6 +363,16 @@ public interface BBListener extends ParseTreeListener {
 	 */
 	void exitIdentificador(BBParser.IdentificadorContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link BBParser#funcion_recibe}.
+	 * @param ctx the parse tree
+	 */
+	void enterFuncion_recibe(BBParser.Funcion_recibeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BBParser#funcion_recibe}.
+	 * @param ctx the parse tree
+	 */
+	void exitFuncion_recibe(BBParser.Funcion_recibeContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code etiqueta_multiplicacion_division}
 	 * labeled alternative in {@link BBParser#expresion}.
 	 * @param ctx the parse tree

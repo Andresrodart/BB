@@ -100,7 +100,7 @@ enunciado						: enunciado_complejo | enunciado_simple ;
 
 enunciado_simple				: enunciado_pequegno (';' enunciado_pequegno)* (';')? SALTO_DE_LINEA;
 
-enunciado_pequegno				: expresion | enunciado_de_flujo | asignar_a_variable | asignacion_con_operacion | declaracion_de_variable | declaracion_de_lista;
+enunciado_pequegno				: funcion_recibe | expresion | enunciado_de_flujo | asignar_a_variable | asignacion_con_operacion | declaracion_de_variable | declaracion_de_lista;
 
 enunciado_complejo				: enunciado_de_eleccion | enunciado_mientras | declaracion_de_funcion;
 
@@ -162,7 +162,9 @@ operador_ternario				: expresion SI prueba_ternaria=expresion SINO respuesta_ter
 
 identificador					: IDENTIFICADOR;
 
-expresion						: identificador '(' parametros ')'										#etiqueta_de_llamada_a_funcion
+funcion_recibe					: '('? parametros ')'? '=' 'recibe' '(' mensaje=TEXTO? ')';
+
+expresion						: identificador '(' parametros ')'											#etiqueta_de_llamada_a_funcion
 								| izquierda=expresion operador=(DIVISION|ASTERISRCO) derecha=expresion		#etiqueta_multiplicacion_division	
 								| izquierda=expresion operador=(SUMA|RESTA) derecha=expresion        		#etiqueta_suma__resta
 								| PARENTESISapertura expresion PARENTESIScierre 							#etiqueta_parentesis

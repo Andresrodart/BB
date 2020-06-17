@@ -10,7 +10,7 @@ entero suma(entero a, entero b):
 	regresa a + b
 
 entero principal():
-	texto pedro = 'hola'
+	texto nombre = 'hola'
 	entero ca = 2
 	si  a > 10 :
 		a = 10
@@ -23,4 +23,6 @@ entero principal():
 	lista <entero> mi_lista = [1, 2, 3 , 4]
 	entero sum = suma(2, a)
 	mi_imprime('mi_funcion', sum)
+	(nombre, entero edad) = recibe('ingresa tu nombre y tu edad: ')
+	imprime('tu nombre es: ', nombre, ' y tienes: ', edad, ' años')
 	regresa ca + 2

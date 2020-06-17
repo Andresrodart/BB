@@ -168,6 +168,27 @@ public class BB2CPP {
 		public void exitOperador_de_comporacion(BBParser.Operador_de_comporacionContext ctx) {
 			setSTR(ctx, ctx.getText());
 		}
+		public void exitFuncion_recibe(BBParser.Funcion_recibeContext ctx) { 
+			StringJoiner buf =  new StringJoiner("\n");
+			StringBuilder cinner =  new StringBuilder();
+			try {
+				buf.add("std::wcout << " + ctx.mensaje.getText().replace("\'", "\"") + ";");
+			} catch (Exception e) {}
+			cinner.append("std::wcin ");
+			try {
+				for (String newElement : getSTR(ctx.parametros()).split(",")) {
+					if(newElement.trim().split(" ").length >= 2){
+						cinner.append( " >> " + newElement.trim().split(" ")[1]);
+						buf.add(newElement.trim() + ";");
+					}
+					else cinner.append( " >> " + newElement.trim().split(" ")[0]);
+				}
+			} catch (Exception e) {
+				System.err.println(e);
+			}
+			buf.add(cinner.toString());
+			setSTR(ctx, buf.toString());
+		}
 		public void exitDeclaracion_de_funcion(BBParser.Declaracion_de_funcionContext ctx) {
 			BBParser.BloqueContext bctx = ctx.bloque();
 			StringJoiner buf =  new StringJoiner(" ");
@@ -185,7 +206,7 @@ public class BB2CPP {
 				//TODO: handle exception
 			}
 			buf.add(")");
-			if(getSTR(ctx.identificador()).equalsIgnoreCase("main")) buf.add("{\n#ifdef _WIN32\n_setmode(_fileno(stdout), 0x00020000); //Make output use UTF-16\n#endif\n#ifdef linux\nstd::wcout.sync_with_stdio(false);\nstd::wcout.imbue(std::locale(\"en_US.utf8\"));\n#endif\n" + getSTR(bctx).substring(1));
+			if(getSTR(ctx.identificador()).equalsIgnoreCase("main")) buf.add("{\n#ifdef _WIN32\n_setmode(_fileno(stdout), 0x00020000); //Make output use UTF-16\n_setmode( _fileno(stdin), 0x00020000 );\n#endif\n#ifdef linux\nstd::wcout.sync_with_stdio(false);\nstd::wcout.imbue(std::locale(\"en_US.utf8\"));\nwcin.imbue(std::locale());\n#endif\n" + getSTR(bctx).substring(1));
 			else buf.add(getSTR(bctx));
 			setSTR(ctx, buf.toString());
 		}

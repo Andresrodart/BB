@@ -16,13 +16,15 @@ int64_t suma ( int64_t a, int64_t b ) {
 int main ( int argc, char const *argv[] ) {
 	#ifdef _WIN32
 	_setmode(_fileno(stdout), 0x00020000); //Make output use UTF-16
+	_setmode( _fileno(stdin), 0x00020000 );
 	#endif
 	#ifdef linux
 	std::wcout.sync_with_stdio(false);
 	std::wcout.imbue(std::locale("en_US.utf8"));
+	wcin.imbue(std::locale());
 	#endif
 	
-	std::wstring pedro = L"hola";
+	std::wstring nombre = L"hola";
 	int64_t ca = 2;
 	if(a > 10){
 		a = 10;
@@ -37,5 +39,9 @@ int main ( int argc, char const *argv[] ) {
 	std::vector<int64_t> mi_lista { 1, 2, 3, 4 };
 	int64_t sum = suma( 2, a );
 	mi_imprime( L"mi_funcion", sum );
+	std::wcout << "ingresa tu nombre y tu edad: ";
+	int64_t edad;
+	std::wcin  >> nombre >> edad;
+	std::wcout <<  L"tu nombre es: " << " " << nombre << " " << L" y tienes: " << " " << edad << " " << L" años"  << std::endl;
 	return ca+2;
 }
