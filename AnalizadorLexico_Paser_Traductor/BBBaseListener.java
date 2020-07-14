@@ -75,6 +75,18 @@ public class BBBaseListener implements BBListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterEnunciado_objeto(BBParser.Enunciado_objetoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEnunciado_objeto(BBParser.Enunciado_objetoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterEnunciado_de_eleccion(BBParser.Enunciado_de_eleccionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -159,13 +171,13 @@ public class BBBaseListener implements BBListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterEtiqueta_bloque_simple(BBParser.Etiqueta_bloque_simpleContext ctx) { }
+	@Override public void enterObjeto(BBParser.ObjetoContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitEtiqueta_bloque_simple(BBParser.Etiqueta_bloque_simpleContext ctx) { }
+	@Override public void exitObjeto(BBParser.ObjetoContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -178,6 +190,18 @@ public class BBBaseListener implements BBListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitEtiqueta_bloque_complejo(BBParser.Etiqueta_bloque_complejoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEtiqueta_bloque_simple(BBParser.Etiqueta_bloque_simpleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEtiqueta_bloque_simple(BBParser.Etiqueta_bloque_simpleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -351,6 +375,18 @@ public class BBBaseListener implements BBListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterParametro_lista(BBParser.Parametro_listaContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParametro_lista(BBParser.Parametro_listaContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterParametro_llamada(BBParser.Parametro_llamadaContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -435,6 +471,30 @@ public class BBBaseListener implements BBListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterLlamada_a_metodo(BBParser.Llamada_a_metodoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLlamada_a_metodo(BBParser.Llamada_a_metodoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMetodo(BBParser.MetodoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMetodo(BBParser.MetodoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterEtiqueta_multiplicacion_division(BBParser.Etiqueta_multiplicacion_divisionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -490,6 +550,18 @@ public class BBBaseListener implements BBListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitEtiqueta_identificador(BBParser.Etiqueta_identificadorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEtiqueta_de_llamada_a_metodo(BBParser.Etiqueta_de_llamada_a_metodoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEtiqueta_de_llamada_a_metodo(BBParser.Etiqueta_de_llamada_a_metodoContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

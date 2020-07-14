@@ -3,10 +3,21 @@ decimal b = 2.0
 texto andrés = 'andrés, es, raro'
 texto cadena = 'hola'
 
+objeto pila:
+	privado:
+		lista <entero> mi_pila
+		entero tamaño
+	público:
+		constructor pila( lista <entero> entrada ):
+			mi_pila = entrada;
+		nada push(entero a):
+			mi_pila.agrega(a)
+
 nada mi_imprime(texto s, entero a):
 	imprime(s, 2, andrés, a)
 
 entero suma(entero a, entero b):
+	entero c = a + b
 	regresa a + b
 
 entero principal():

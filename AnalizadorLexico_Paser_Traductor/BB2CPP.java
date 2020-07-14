@@ -3,6 +3,7 @@ import org.antlr.v4.runtime.tree.*;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.StringJoiner;
 import java.io.File;  // Import the File class
@@ -16,9 +17,13 @@ import java.nio.charset.StandardCharsets;
  */
 public class BB2CPP {
 	public static class EmisorCPP extends BBBaseListener{
+		/**Tabla para mantener registro de vasriables y su tipo de dato */
+		private Hashtable<String, String> tipo_de_dato = new Hashtable<String, String>();
+		/**Tabal para recuperar instancias de hojas en el árbol sintáctico */
 		ParseTreeProperty<String> cpp = new ParseTreeProperty<String>();
 		String getSTR(ParseTree ctx) { return cpp.get(ctx); }
 		void setSTR(ParseTree ctx, String s) { cpp.put(ctx, s); }
+		/**Función para dar formato al código resultado */
 		String tab(String s){
 			int identLevel = 0;
 			StringBuilder res = new StringBuilder();
@@ -31,6 +36,7 @@ public class BB2CPP {
 			}
 			return res.toString();
 		}
+		/**Mapa de tipos de datos */
 		String getTipo(String tipo){
 			switch (tipo) {
 				case "entero":
@@ -41,15 +47,19 @@ public class BB2CPP {
 					return "double";
 				case "nada":
 					return "void";
+				case "privado":
+					return "private";
+				case "protegido": 
+					return "protected";
+				case "constructor": 
+					return "";
 				default:
-					break;
+					return "public";
 			}
-			return "err";
 		}
 		public void exitBb(BBParser.BbContext ctx){
 			StringJoiner buf =  new StringJoiner(""); 
-			for(BBParser.EnunciadoContext ectx: ctx.enunciado())
-				buf.add(getSTR(ectx));
+			for(BBParser.EnunciadoContext ectx: ctx.enunciado())buf.add(getSTR(ectx));
 			setSTR(ctx, tab(buf.toString()));
 		}
 		public void exitEnunciado(BBParser.EnunciadoContext ctx) {
@@ -63,6 +73,12 @@ public class BB2CPP {
 		}
 		public void exitEnunciado_complejo(BBParser.Enunciado_complejoContext ctx) {
 			setSTR(ctx, getSTR(ctx.getChild(0)));
+		}
+		public void exitEnunciado_objeto(BBParser.Enunciado_objetoContext ctx) { 
+			StringJoiner buf =  new StringJoiner("");
+			buf.add(getTipo(ctx.tipo.getText()) + " :\n");
+			for(BBParser.EnunciadoContext ectx: ctx.enunciado()) buf.add(getSTR(ectx));
+			setSTR(ctx, buf.toString());
 		}
 		public void exitEnunciado_de_eleccion(BBParser.Enunciado_de_eleccionContext ctx) {
 			StringJoiner buf =  new StringJoiner(""); 
@@ -101,6 +117,20 @@ public class BB2CPP {
 		}
 		public void exitEnunciado_de_flujo(BBParser.Enunciado_de_flujoContext ctx) {
 			setSTR(ctx, getSTR(ctx.getChild(0)));
+		}
+		public void exitObjeto(BBParser.ObjetoContext ctx) { 
+			StringJoiner buf =  new StringJoiner(" ");
+			BBParser.BloqueContext bctx = ctx.bloque();
+			buf.add("class");
+			buf.add(getSTR(ctx.id));
+			String id_padre = getSTR(ctx.id_h);
+			if (id_padre != null) {
+				buf.add(":");
+				buf.add("public");
+				buf.add(id_padre);
+			}
+			buf.add(getSTR(bctx) + ';');
+			setSTR(ctx, buf.toString());
 		}
 		public void exitEtiqueta_bloque_simple(BBParser.Etiqueta_bloque_simpleContext ctx) {
 			setSTR(ctx, getSTR(ctx.getChild(0)));
@@ -189,6 +219,23 @@ public class BB2CPP {
 			buf.add(cinner.toString());
 			setSTR(ctx, buf.toString());
 		}
+		public void exitMetodo(BBParser.MetodoContext ctx) { 
+			StringBuilder buf;
+			if(ctx.METODO().getText().equals(".agrega")) buf = new StringBuilder(".push_back");
+			else buf = new StringBuilder(ctx.METODO().getText());
+			buf.append("(");
+			if(!getSTR(ctx.parametros()).equalsIgnoreCase("null")) buf.append(getSTR(ctx.parametros()));
+			buf.append(")");
+			setSTR(ctx, buf.toString());
+		}
+		public void exitLlamada_a_metodo(BBParser.Llamada_a_metodoContext ctx) { 
+			StringBuilder buf = new StringBuilder(ctx.IDENTIFICADOR().getText());
+			for (BBParser.MetodoContext metodo : ctx.metodo()) buf.append(getSTR(metodo));
+			setSTR(ctx, buf.toString());
+		}
+		public void exitEtiqueta_de_llamada_a_metodo(BBParser.Etiqueta_de_llamada_a_metodoContext ctx) { 
+			setSTR(ctx, getSTR(ctx.llamada_a_metodo()));
+		}
 		public void exitDeclaracion_de_funcion(BBParser.Declaracion_de_funcionContext ctx) {
 			BBParser.BloqueContext bctx = ctx.bloque();
 			StringJoiner buf =  new StringJoiner(" ");
@@ -206,18 +253,20 @@ public class BB2CPP {
 				//TODO: handle exception
 			}
 			buf.add(")");
-			if(getSTR(ctx.identificador()).equalsIgnoreCase("main")) buf.add("{\n#ifdef _WIN32\n_setmode(_fileno(stdout), 0x00020000); //Make output use UTF-16\n_setmode( _fileno(stdin), 0x00020000 );\n#endif\n#ifdef linux\nstd::wcout.sync_with_stdio(false);\nstd::wcout.imbue(std::locale(\"en_US.utf8\"));\nwcin.imbue(std::locale());\n#endif\n" + getSTR(bctx).substring(1));
+			if(getSTR(ctx.identificador()).equalsIgnoreCase("main")) buf.add("{\n#ifdef _WIN32\n_setmode(_fileno(stdout), 0x00020000);\n_setmode( _fileno(stdin), 0x00020000 );\n#endif\n#ifdef linux\nstd::wcout.sync_with_stdio(false);\nstd::wcout.imbue(std::locale(\"en_US.utf8\"));\nwcin.imbue(std::locale());\n#endif\n" + getSTR(bctx).substring(1));
 			else buf.add(getSTR(bctx));
-			setSTR(ctx, buf.toString());
+			setSTR(ctx, buf.toString().trim());
 		}
 		public void exitDeclaracion_de_variable_con_asignacion(BBParser.Declaracion_de_variable_con_asignacionContext ctx) {
 			String tipo = getTipo(ctx.tipo.getText());
 			String res = tipo + " " +  getSTR(ctx.asignar_a_variable());
+			tipo_de_dato.put(getSTR(ctx.asignar_a_variable().identificador()), ctx.tipo.getText());
 			setSTR(ctx, res);
 		}
 		public void exitDeclaracion_de_variable_sin_asignacion(BBParser.Declaracion_de_variable_sin_asignacionContext ctx) {
 			String tipo = getTipo(ctx.tipo.getText());
 			String res = tipo + " " +  getSTR(ctx.identificador());
+			tipo_de_dato.put(getSTR(ctx.identificador()), ctx.tipo.getText());
 			setSTR(ctx, res);
 		}
 		public void exitDeclaracion_de_lista(BBParser.Declaracion_de_listaContext ctx) {
@@ -229,9 +278,10 @@ public class BB2CPP {
 				StringJoiner par =  new StringJoiner(", ");
 				for(BBParser.ExpresionContext ectx: ctx.expresion())
 					par.add(getSTR(ectx));
-				buf.add(par.toString());
+				buf.add(par.toString().trim());
 				buf.add("}");
 			}
+			tipo_de_dato.put(getSTR(ctx.identificador()), "lista");
 			setSTR(ctx, buf.toString());
 		}
 		public void exitParametros(BBParser.ParametrosContext ctx) {
@@ -241,6 +291,9 @@ public class BB2CPP {
 			setSTR(ctx, buf.toString());
 		}
 		public void exitParametro_funcion(BBParser.Parametro_funcionContext ctx) {
+			setSTR(ctx, getSTR(ctx.getChild(0)));
+		}
+		public void exitParametro_lista(BBParser.Parametro_listaContext ctx) { 
 			setSTR(ctx, getSTR(ctx.getChild(0)));
 		}
 		public void exitParametro_llamada(BBParser.Parametro_llamadaContext ctx) {
@@ -305,7 +358,9 @@ public class BB2CPP {
 				setSTR(ctx, buf.toString());
 			}
 			else{
-				String res = getSTR(ctx.identificador()) + "( " + getSTR(pctx) + " )";
+				String res = getSTR(ctx.identificador()) + "( " + 
+					((getSTR(pctx) == null)? "":getSTR(pctx) )
+				+ " )";
 				setSTR(ctx, res);
 			}
 		}

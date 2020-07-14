@@ -1,0 +1,21 @@
+digraph finite_state_machine{
+    rankdir=LR;
+    subgraph cluster{
+        style = "rounded,filled";
+        color = "#000000";
+        fillcolor = "0.630 0.3 0.9";
+        node [shape = point ] qi;
+        node [style = "rounded,filled", color = "#000000", fillcolor = white, shape = doublecircle] 5;
+        node [style = "rounded,filled", color = "#000000", fillcolor = white, shape="oval"];
+        qi -> 0 [ label = "Start" ];
+	0 -> 1 [ label = "&epsilon;" ];
+	1 -> 2 [ label = "&epsilon;" ];
+	1 -> 4 [ label = "&epsilon;" ];
+	2 -> 3 [ label = "b" ];
+	3 -> 4 [ label = "&epsilon;" ];
+	3 -> 2 [ label = "&epsilon;" ];
+	4 -> 5 [ label = "&epsilon;" ];
+	4 -> 1 [ label = "&epsilon;" ];
+	label = "NFA of Thompson of: b*+";
+    }
+}

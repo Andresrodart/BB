@@ -57,6 +57,16 @@ public interface BBListener extends ParseTreeListener {
 	 */
 	void exitEnunciado_complejo(BBParser.Enunciado_complejoContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link BBParser#enunciado_objeto}.
+	 * @param ctx the parse tree
+	 */
+	void enterEnunciado_objeto(BBParser.Enunciado_objetoContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BBParser#enunciado_objeto}.
+	 * @param ctx the parse tree
+	 */
+	void exitEnunciado_objeto(BBParser.Enunciado_objetoContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link BBParser#enunciado_de_eleccion}.
 	 * @param ctx the parse tree
 	 */
@@ -127,17 +137,15 @@ public interface BBListener extends ParseTreeListener {
 	 */
 	void exitEnunciado_de_flujo(BBParser.Enunciado_de_flujoContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code etiqueta_bloque_simple}
-	 * labeled alternative in {@link BBParser#bloque}.
+	 * Enter a parse tree produced by {@link BBParser#objeto}.
 	 * @param ctx the parse tree
 	 */
-	void enterEtiqueta_bloque_simple(BBParser.Etiqueta_bloque_simpleContext ctx);
+	void enterObjeto(BBParser.ObjetoContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code etiqueta_bloque_simple}
-	 * labeled alternative in {@link BBParser#bloque}.
+	 * Exit a parse tree produced by {@link BBParser#objeto}.
 	 * @param ctx the parse tree
 	 */
-	void exitEtiqueta_bloque_simple(BBParser.Etiqueta_bloque_simpleContext ctx);
+	void exitObjeto(BBParser.ObjetoContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code etiqueta_bloque_complejo}
 	 * labeled alternative in {@link BBParser#bloque}.
@@ -150,6 +158,18 @@ public interface BBListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitEtiqueta_bloque_complejo(BBParser.Etiqueta_bloque_complejoContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code etiqueta_bloque_simple}
+	 * labeled alternative in {@link BBParser#bloque}.
+	 * @param ctx the parse tree
+	 */
+	void enterEtiqueta_bloque_simple(BBParser.Etiqueta_bloque_simpleContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code etiqueta_bloque_simple}
+	 * labeled alternative in {@link BBParser#bloque}.
+	 * @param ctx the parse tree
+	 */
+	void exitEtiqueta_bloque_simple(BBParser.Etiqueta_bloque_simpleContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link BBParser#prueba}.
 	 * @param ctx the parse tree
@@ -301,6 +321,18 @@ public interface BBListener extends ParseTreeListener {
 	 */
 	void exitParametro_funcion(BBParser.Parametro_funcionContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code parametro_lista}
+	 * labeled alternative in {@link BBParser#parametro}.
+	 * @param ctx the parse tree
+	 */
+	void enterParametro_lista(BBParser.Parametro_listaContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code parametro_lista}
+	 * labeled alternative in {@link BBParser#parametro}.
+	 * @param ctx the parse tree
+	 */
+	void exitParametro_lista(BBParser.Parametro_listaContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code parametro_llamada}
 	 * labeled alternative in {@link BBParser#parametro}.
 	 * @param ctx the parse tree
@@ -373,6 +405,26 @@ public interface BBListener extends ParseTreeListener {
 	 */
 	void exitFuncion_recibe(BBParser.Funcion_recibeContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link BBParser#llamada_a_metodo}.
+	 * @param ctx the parse tree
+	 */
+	void enterLlamada_a_metodo(BBParser.Llamada_a_metodoContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BBParser#llamada_a_metodo}.
+	 * @param ctx the parse tree
+	 */
+	void exitLlamada_a_metodo(BBParser.Llamada_a_metodoContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link BBParser#metodo}.
+	 * @param ctx the parse tree
+	 */
+	void enterMetodo(BBParser.MetodoContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BBParser#metodo}.
+	 * @param ctx the parse tree
+	 */
+	void exitMetodo(BBParser.MetodoContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code etiqueta_multiplicacion_division}
 	 * labeled alternative in {@link BBParser#expresion}.
 	 * @param ctx the parse tree
@@ -432,6 +484,18 @@ public interface BBListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitEtiqueta_identificador(BBParser.Etiqueta_identificadorContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code etiqueta_de_llamada_a_metodo}
+	 * labeled alternative in {@link BBParser#expresion}.
+	 * @param ctx the parse tree
+	 */
+	void enterEtiqueta_de_llamada_a_metodo(BBParser.Etiqueta_de_llamada_a_metodoContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code etiqueta_de_llamada_a_metodo}
+	 * labeled alternative in {@link BBParser#expresion}.
+	 * @param ctx the parse tree
+	 */
+	void exitEtiqueta_de_llamada_a_metodo(BBParser.Etiqueta_de_llamada_a_metodoContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code etiqueta_complemento_negativo}
 	 * labeled alternative in {@link BBParser#expresion}.

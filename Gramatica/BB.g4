@@ -96,13 +96,15 @@ tokens { INDENT, DEDENT }
 *************************/
 bb								: (SALTO_DE_LINEA | enunciado)* EOF;
 
-enunciado						: enunciado_complejo | enunciado_simple ;	
+enunciado						: enunciado_simple | enunciado_complejo ;	
 
 enunciado_simple				: enunciado_pequegno (';' enunciado_pequegno)* (';')? SALTO_DE_LINEA;
 
 enunciado_pequegno				: funcion_recibe | expresion | enunciado_de_flujo | asignar_a_variable | asignacion_con_operacion | declaracion_de_variable | declaracion_de_lista;
 
-enunciado_complejo				: enunciado_de_eleccion | enunciado_mientras | declaracion_de_funcion;
+enunciado_complejo				: enunciado_objeto | objeto | enunciado_de_eleccion | enunciado_mientras | declaracion_de_funcion;
+
+enunciado_objeto				: tipo=(PUBLICO | PRIVADO | PROTEGIDO) ':' SALTO_DE_LINEA INDENT enunciado+ DEDENT;
 
 enunciado_de_eleccion			: caso_si caso_o_si* caso_sino?;
 
@@ -118,8 +120,10 @@ caso_mientras					: 'mientras' prueba ':' bloque;
 
 enunciado_de_flujo				: retorno; 
 
-bloque							: enunciado_simple 										#etiqueta_bloque_simple
-								| SALTO_DE_LINEA INDENT enunciado+ DEDENT				#etiqueta_bloque_complejo
+objeto							: OBJETO id=identificador ( HEREDA id_h=identificador )? ':' bloque;
+
+bloque							: SALTO_DE_LINEA INDENT enunciado+ DEDENT				#etiqueta_bloque_complejo
+								| enunciado_simple 										#etiqueta_bloque_simple
 								;
 
 prueba							: prueba_o (SI  prueba_ternaria=prueba_o SINO respuesta_ternaria=prueba)?;
@@ -149,6 +153,7 @@ declaracion_de_lista			: 'lista' '<' tipo=TIPO '>' id=identificador ( '=' '[' (e
 parametros						: parametro (',' parametro)* (',')?;
 
 parametro						: declaracion_de_variable 	#parametro_funcion
+								| declaracion_de_lista		#parametro_lista
 								| expresion					#parametro_llamada
 								;
 
@@ -164,7 +169,12 @@ identificador					: IDENTIFICADOR;
 
 funcion_recibe					: '('? parametros ')'? '=' 'recibe' '(' mensaje=TEXTO? ')';
 
-expresion						: identificador '(' parametros ')'											#etiqueta_de_llamada_a_funcion
+llamada_a_metodo				: IDENTIFICADOR metodo+;
+
+metodo							: METODO '(' parametros? ')';
+
+expresion						: llamada_a_metodo															#etiqueta_de_llamada_a_metodo
+								| identificador '(' parametros? ')'											#etiqueta_de_llamada_a_funcion
 								| izquierda=expresion operador=(DIVISION|ASTERISRCO) derecha=expresion		#etiqueta_multiplicacion_division	
 								| izquierda=expresion operador=(SUMA|RESTA) derecha=expresion        		#etiqueta_suma__resta
 								| PARENTESISapertura expresion PARENTESIScierre 							#etiqueta_parentesis

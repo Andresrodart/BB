@@ -4,13 +4,18 @@ lexer grammar reglas_lexicas;
 ********************************************/
 
 fragment DIGITO					: [0-9];
-fragment MINÚSCULA 				: [a-z]|'\u00E1'|'\u00E9'|'\u00ED'|'\u00F3'|'\u00FA'|'\u00FC'|'\u00F1';
 fragment EXPONENCIAL			: [Ee] [+\-]? DIGITO; 
 /* Letras minúscuilas inlcuyendo: á, é, í, ó, ú, ü, ñ */
+fragment MINÚSCULA 				: [a-z]|'\u00E1'|'\u00E9'|'\u00ED'|'\u00F3'|'\u00FA'|'\u00FC'|'\u00F1';
 fragment MAYÚSCULA 				: [A-Z]|'\u00C1'|'\u00C9'|'\u00D3'|'\u00DA'|'\u00DC'|'\u00D1';
 fragment ESPACIOS				: [ \t]+;
 fragment ESC 					: '\\"' | '\\\\';
-
+/* Palabras reservadas */
+PUBLICO							: 'público';
+PRIVADO							: 'privado';
+PROTEGIDO						: 'protegido';
+HEREDA							: 'hereda';
+OBJETO							: 'objeto';
 /*  Operadores lógicos	*/
 SI								: 'si';
 ES								: 'es';
@@ -32,9 +37,10 @@ DIVISION           				: '/' ;
 ASIGNACION         				: '=' ;
 POTENCIA         				: '^' ;
 
-TIPO							: 'entero' | 'texto' | 'decimal' | 'lista' | 'nada';
+TIPO							: 'entero' | 'texto' | 'decimal' | 'lista' | 'nada' | 'constructor';
 TEXTO 							: '\''(ESC|.)*?'\''|'"' (ESC|.)*? '"' ; 
-IDENTIFICADOR					: (MINÚSCULA|MAYÚSCULA|'_')+ (MINÚSCULA|MAYÚSCULA|DIGITO|'_')*; 
+IDENTIFICADOR					: (MINÚSCULA|MAYÚSCULA|'_')+ (MINÚSCULA|MAYÚSCULA|DIGITO|'_')*;
+METODO							: '.'IDENTIFICADOR; 
 /*		Literales		*/ 
 
 ENTERO 							: '-'? DIGITO+; 
