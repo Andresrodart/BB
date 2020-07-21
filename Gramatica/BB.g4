@@ -179,6 +179,8 @@ expresion						: llamada_a_metodo															#etiqueta_de_llamada_a_metodo
 								| izquierda=expresion operador=(SUMA|RESTA) derecha=expresion        		#etiqueta_suma__resta
 								| PARENTESISapertura expresion PARENTESIScierre 							#etiqueta_parentesis
 								| RESTA expresion  															#etiqueta_complemento_negativo
+								| VERDAD																	#etiqueta_valor_atomico_verdad
+								| FALSO																		#etiqueta_valor_atomico_falso
 								| identificador                												#etiqueta_identificador
 								| TEXTO 																	#etiqueta_valor_texto
 								| ENTERO 																	#etiqueta_valor_atomico

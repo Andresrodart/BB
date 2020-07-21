@@ -495,6 +495,18 @@ public class BBBaseListener implements BBListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterEtiqueta_valor_atomico_falso(BBParser.Etiqueta_valor_atomico_falsoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEtiqueta_valor_atomico_falso(BBParser.Etiqueta_valor_atomico_falsoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterEtiqueta_multiplicacion_division(BBParser.Etiqueta_multiplicacion_divisionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -502,6 +514,18 @@ public class BBBaseListener implements BBListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitEtiqueta_multiplicacion_division(BBParser.Etiqueta_multiplicacion_divisionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEtiqueta_valor_atomico_verdad(BBParser.Etiqueta_valor_atomico_verdadContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEtiqueta_valor_atomico_verdad(BBParser.Etiqueta_valor_atomico_verdadContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

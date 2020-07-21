@@ -23,7 +23,7 @@ entero suma(entero a, entero b):
 entero principal():
 	texto nombre = 'hola'
 	entero ca = 2
-	si  a > 10 :
+	si  a > 10 y verdad:
 		a = 10
 	o si a == 20:
 		a = 21

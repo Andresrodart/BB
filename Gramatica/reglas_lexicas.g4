@@ -37,14 +37,17 @@ DIVISION           				: '/' ;
 ASIGNACION         				: '=' ;
 POTENCIA         				: '^' ;
 
-TIPO							: 'entero' | 'texto' | 'decimal' | 'lista' | 'nada' | 'constructor';
-TEXTO 							: '\''(ESC|.)*?'\''|'"' (ESC|.)*? '"' ; 
-IDENTIFICADOR					: (MINÚSCULA|MAYÚSCULA|'_')+ (MINÚSCULA|MAYÚSCULA|DIGITO|'_')*;
-METODO							: '.'IDENTIFICADOR; 
 /*		Literales		*/ 
 
 ENTERO 							: '-'? DIGITO+; 
 DECIMAL 						: '-'? DIGITO*'.'DIGITO+;
+VERDAD							: 'verdad';
+FALSO							: 'falso';
+
+TIPO							: 'entero' | 'texto' | 'decimal' | 'lista' | 'nada' | 'constructor';
+TEXTO 							: '\''(ESC|.)*?'\''|'"' (ESC|.)*? '"' ; 
+IDENTIFICADOR					: (MINÚSCULA|MAYÚSCULA|'_')+ (MINÚSCULA|MAYÚSCULA|DIGITO|'_')*;
+METODO							: '.'IDENTIFICADOR; 
 
 COMENTARIO						: '/*' .*? '*/' -> channel(HIDDEN);
 TABULACION                 		: [\t]+;

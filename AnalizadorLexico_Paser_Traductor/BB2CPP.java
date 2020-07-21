@@ -367,6 +367,12 @@ public class BB2CPP {
 		public void exitEtiqueta_valor_atomico(BBParser.Etiqueta_valor_atomicoContext ctx) {
 			setSTR(ctx, ctx.getText());
 		}
+		public void exitEtiqueta_valor_atomico_verdad(BBParser.Etiqueta_valor_atomico_verdadContext ctx) { 
+			setSTR(ctx, "True");
+		}
+		public void exitEtiqueta_valor_atomico_falso(BBParser.Etiqueta_valor_atomico_falsoContext ctx) { 
+			setSTR(ctx, "False");
+		}
 		public void exitEtiqueta_valor_texto(BBParser.Etiqueta_valor_textoContext ctx) {
 			setSTR(ctx, "L" + ctx.getText().replaceAll("'", "\""));
 		}
@@ -393,7 +399,7 @@ public class BB2CPP {
 		try {
 			Writer out = new BufferedWriter(new OutputStreamWriter( new FileOutputStream("BB.cpp"), "UTF-8"));
 			//FileWriter myWriter = new FileWriter("BB.cpp");
-			out.write("#include <bits/stdc++.h>\n#ifdef _WIN32\n#include <fcntl.h>\n#endif\n#include <bits/stdc++.h>\n");
+			out.write("#include <bits/stdc++.h>\n#if !defined(True)\n#define True  (1==1)\n#endif\n#if !defined(False)\n#define False (!True)\n#endif\n#ifdef _WIN32\n#include <fcntl.h>\n#endif\n\n");
 			out.write(converter.getSTR(tree));
 			out.close();
 		} catch (IOException e) {

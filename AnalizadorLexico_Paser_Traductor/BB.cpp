@@ -1,8 +1,14 @@
 #include <bits/stdc++.h>
+#if !defined(True)
+#define True  (1==1)
+#endif
+#if !defined(False)
+#define False (!True)
+#endif
 #ifdef _WIN32
 #include <fcntl.h>
 #endif
-#include <bits/stdc++.h>
+
 int64_t a = 2*(2+3*8/2);
 double b = 2.0;
 std::wstring andr_s = L"andrés, es, raro";
@@ -41,7 +47,7 @@ int main ( int argc, char const *argv[] ) {
 	
 	std::wstring nombre = L"hola";
 	int64_t ca = 2;
-	if(a > 10){
+	if(a > 10 && True){
 		a = 10;
 	}else if(a == 20){
 		a = 21;

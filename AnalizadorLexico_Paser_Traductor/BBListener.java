@@ -425,6 +425,18 @@ public interface BBListener extends ParseTreeListener {
 	 */
 	void exitMetodo(BBParser.MetodoContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code etiqueta_valor_atomico_falso}
+	 * labeled alternative in {@link BBParser#expresion}.
+	 * @param ctx the parse tree
+	 */
+	void enterEtiqueta_valor_atomico_falso(BBParser.Etiqueta_valor_atomico_falsoContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code etiqueta_valor_atomico_falso}
+	 * labeled alternative in {@link BBParser#expresion}.
+	 * @param ctx the parse tree
+	 */
+	void exitEtiqueta_valor_atomico_falso(BBParser.Etiqueta_valor_atomico_falsoContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code etiqueta_multiplicacion_division}
 	 * labeled alternative in {@link BBParser#expresion}.
 	 * @param ctx the parse tree
@@ -436,6 +448,18 @@ public interface BBListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitEtiqueta_multiplicacion_division(BBParser.Etiqueta_multiplicacion_divisionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code etiqueta_valor_atomico_verdad}
+	 * labeled alternative in {@link BBParser#expresion}.
+	 * @param ctx the parse tree
+	 */
+	void enterEtiqueta_valor_atomico_verdad(BBParser.Etiqueta_valor_atomico_verdadContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code etiqueta_valor_atomico_verdad}
+	 * labeled alternative in {@link BBParser#expresion}.
+	 * @param ctx the parse tree
+	 */
+	void exitEtiqueta_valor_atomico_verdad(BBParser.Etiqueta_valor_atomico_verdadContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code etiqueta_valor_texto}
 	 * labeled alternative in {@link BBParser#expresion}.
