@@ -127,6 +127,16 @@ public interface BBListener extends ParseTreeListener {
 	 */
 	void exitCaso_mientras(BBParser.Caso_mientrasContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link BBParser#enunciado_para}.
+	 * @param ctx the parse tree
+	 */
+	void enterEnunciado_para(BBParser.Enunciado_paraContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BBParser#enunciado_para}.
+	 * @param ctx the parse tree
+	 */
+	void exitEnunciado_para(BBParser.Enunciado_paraContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link BBParser#enunciado_de_flujo}.
 	 * @param ctx the parse tree
 	 */

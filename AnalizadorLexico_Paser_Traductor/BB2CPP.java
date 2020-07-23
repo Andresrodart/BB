@@ -115,6 +115,12 @@ public class BB2CPP {
 			String res = "while(" + getSTR(pctx)  + ')' + getSTR(bctx);
 			setSTR(ctx, res);
 		}
+		public void exitEnunciado_para(BBParser.Enunciado_paraContext ctx) { 
+			BBParser.PruebaContext pctx = ctx.prueba();
+			BBParser.BloqueContext bctx = ctx.bloque();
+			String res = "for(" + getSTR(ctx.iterador)  + "; " + getSTR(ctx.prueba()) + "; " + getSTR(ctx.iterador).split(" ")[1] + " += " + getSTR(ctx.incremento) +')' + getSTR(bctx);
+			setSTR(ctx, res);
+		}
 		public void exitEnunciado_de_flujo(BBParser.Enunciado_de_flujoContext ctx) {
 			setSTR(ctx, getSTR(ctx.getChild(0)));
 		}

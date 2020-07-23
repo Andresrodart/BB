@@ -159,6 +159,18 @@ public class BBBaseListener implements BBListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterEnunciado_para(BBParser.Enunciado_paraContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEnunciado_para(BBParser.Enunciado_paraContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterEnunciado_de_flujo(BBParser.Enunciado_de_flujoContext ctx) { }
 	/**
 	 * {@inheritDoc}
