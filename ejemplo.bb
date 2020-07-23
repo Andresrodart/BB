@@ -31,6 +31,8 @@ entero principal():
 		a = 0
 	mientras a < 10 :
 		a += 1
+	para entero x = 10 hasta x < 100 incrementando 2:
+		imprime('BB es lo máximo')
 	lista <entero> mi_lista = [1, 2, 3 , 4]
 	entero sum = suma(2, a)
 	mi_imprime('mi_funcion', sum)

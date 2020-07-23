@@ -57,6 +57,9 @@ int main ( int argc, char const *argv[] ) {
 	while(a < 10){
 		a+=1;
 	}
+	for(int64_t x = 10; x < 100; x += 2){
+		std::wcout <<  L"BB es lo máximo"  << std::endl;
+	}
 	std::vector<int64_t> mi_lista { 1, 2, 3, 4 };
 	int64_t sum = suma( 2, a );
 	mi_imprime( L"mi_funcion", sum );

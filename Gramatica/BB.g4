@@ -102,7 +102,7 @@ enunciado_simple				: enunciado_pequegno (';' enunciado_pequegno)* (';')? SALTO_
 
 enunciado_pequegno				: funcion_recibe | expresion | enunciado_de_flujo | asignar_a_variable | asignacion_con_operacion | declaracion_de_variable | declaracion_de_lista;
 
-enunciado_complejo				: enunciado_objeto | objeto | enunciado_de_eleccion | enunciado_mientras | declaracion_de_funcion;
+enunciado_complejo				: enunciado_objeto | objeto | enunciado_de_eleccion | enunciado_mientras | enunciado_para | declaracion_de_funcion;
 
 enunciado_objeto				: tipo=(PUBLICO | PRIVADO | PROTEGIDO) ':' SALTO_DE_LINEA INDENT enunciado+ DEDENT;
 
@@ -117,6 +117,8 @@ caso_sino						: SINO ':' bloque;
 enunciado_mientras				: caso_mientras caso_sino?;
 
 caso_mientras					: 'mientras' prueba ':' bloque;
+
+enunciado_para					: PARA iterador=enunciado_pequegno HASTA prueba INCREMENTANDO incremento=expresion ':' bloque; 
 
 enunciado_de_flujo				: retorno; 
 

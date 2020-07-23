@@ -16,6 +16,9 @@ PRIVADO							: 'privado';
 PROTEGIDO						: 'protegido';
 HEREDA							: 'hereda';
 OBJETO							: 'objeto';
+PARA							: 'para';
+HASTA							: 'hasta';
+INCREMENTANDO					: 'incrementando';
 /*  Operadores lógicos	*/
 SI								: 'si';
 ES								: 'es';
