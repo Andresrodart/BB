@@ -15,11 +15,11 @@ std::wstring andr_s = L"andrés, es, raro";
 std::wstring cadena = L"hola";
 class pila {
 	private :
-	std::vector<int64_t> mi_pila;
+	std::deque<int64_t> mi_pila;
 	int64_t tama_o;
 	
 	public :
-	pila ( std::vector<int64_t> entrada ) {
+	pila ( std::deque<int64_t> entrada ) {
 		mi_pila = entrada;
 	}
 	void push ( int64_t a ) {
@@ -60,7 +60,15 @@ int main ( int argc, char const *argv[] ) {
 	for(int64_t x = 10; x < 100; x += 2){
 		std::wcout <<  L"BB es lo máximo"  << std::endl;
 	}
-	std::vector<int64_t> mi_lista { 1, 2, 3, 4 };
+	std::deque<int64_t> mi_lista { 1, 2, 3, 4 };
+	mi_lista.push_back(2);
+	mi_lista.pop_front();
+	mi_lista.pop_back();
+	mi_lista.front();
+	mi_lista.back();
+	for(int64_t x = 10; x < mi_lista.size(); x += 2){
+		std::wcout <<  L"BB es lo máximo"  << std::endl;
+	}
 	int64_t sum = suma( 2, a );
 	mi_imprime( L"mi_funcion", sum );
 	std::wcout << "ingresa tu nombre y tu edad: ";

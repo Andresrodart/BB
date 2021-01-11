@@ -1,4 +1,0 @@
-Manifest-Version: 1.0
-Created-By: 0.1.0 (Andresrodart)
-Class-Path: ./antlr-4.8-complete.jar
-Main-Class: BB2CPP

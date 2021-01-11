@@ -6,8 +6,8 @@ BB (Burros Blancos) es un lenguaje de programación que al ser compilado genera 
 El lenguaje esta basado en la sintáxis de Python3 que, a consideración personal, es un formato bastante legible.
 
 ## ¿Cómo usarlo?
-Para usar BB debes tener Java 11 o mayor. Y g++ si deseas compilarlo como un ejecutable. De este repositorio descarga BB.jar. Puedes descargar la librería de ANTLR4 desde su página (https://www.antlr.org/)
-Puede ver con más claridad su usi e instalación en el siguiente video: https://youtu.be/GJt1QPx0IIo
+Para usar BB debes tener Java 11 o mayor. Y g++ si deseas compilarlo como un ejecutable. De este repositorio descarga BB.jar.
+Puede ver con más claridad su uso e instalación en el siguiente video: https://youtu.be/GJt1QPx0IIo
 ## Sintaxis
 Como en C++, debemos declarar la función principal. Pero, como Python, el bloque de código se establece con ':' después de la declaración de la función y cada sentencia que sigue con un tabulador.
 BB es un lenguaje tipado (cada variable que se declara debe se pertenecer a un único tipo de dato). Actualmente los tipos que se soporta son: `entero`, `decimal`, `texto` y `nada`. Los cuales se usan antes de una variable para indicar su tipo o antes de la declaración de un función para indicar el valor de retorno que se espera.

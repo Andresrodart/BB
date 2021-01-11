@@ -173,7 +173,9 @@ funcion_recibe					: '('? parametros ')'? '=' 'recibe' '(' mensaje=TEXTO? ')';
 
 llamada_a_metodo				: IDENTIFICADOR metodo+;
 
-metodo							: METODO '(' parametros? ')';
+metodo							: METODO metodo_miembro?;
+
+metodo_miembro					: '(' parametros? ')';
 
 expresion						: llamada_a_metodo															#etiqueta_de_llamada_a_metodo
 								| identificador '(' parametros? ')'											#etiqueta_de_llamada_a_funcion

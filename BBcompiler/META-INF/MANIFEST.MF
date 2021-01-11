@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Created-By: 0.1.0 (Andresrodart)
+Class-Path: .
+Main-Class: BBcompiler.BB

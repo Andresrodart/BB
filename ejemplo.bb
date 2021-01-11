@@ -34,6 +34,13 @@ entero principal():
 	para entero x = 10 hasta x < 100 incrementando 2:
 		imprime('BB es lo máximo')
 	lista <entero> mi_lista = [1, 2, 3 , 4]
+	mi_lista.agrega(2)
+	mi_lista.desencola()
+	mi_lista.desapila()
+	mi_lista.frente
+	mi_lista.cola
+	para entero x = 10 hasta x < mi_lista.tamaño() incrementando 2:
+		imprime('BB es lo máximo')
 	entero sum = suma(2, a)
 	mi_imprime('mi_funcion', sum)
 	(nombre, entero edad) = recibe('ingresa tu nombre y tu edad: ')
