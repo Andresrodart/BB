@@ -8,20 +8,21 @@ alias grun='java org.antlr.v4.runtime.misc.TestRig'
 ## Generate Listener
 ```
 /BB/gramatica$ antlr4 BB.g4 -encoding utf-8 -o ..\BBcompiler -package BBcompiler
+/BB/gramatica$ antlr4 BB.g4 -encoding utf-8 -o ..\tests\grun
 ```
 ## antlr4 rig test tool
 ```
-/BB/.classes$ grun BB bb -gui -input-filename ./ejemplo.bb
+/BB/tests/grun$ grun BB bb -gui -input-filename ./ejemplo.bb
 ```
 ## How to compile
 ```
-/BB/.BBcompiler$ javac *.java -d ../.classes -classpath ..\libs\antlr-4.9.1-complete.jar;
-```
-## Execute test ejemplo.bb
-```
-/BB/.classes$ java BBcompiler.BB ..\ejemplo.bb
+/BB/BBcompiler$ javac *.java -d ../.classes -classpath ..\libs\antlr-4.9.1-complete.jar;
 ```
 ## create jar
 ```
-/BB/$ jar cvfm BB.jar .\BBcompiler\META-INF\MANIFEST.MF ..\.classes\
+/BB/$ jar --verbose --create --file BB.jar --manifest .\BBcompiler\META-INF\MANIFEST.MF -C .\.classes\ . 
+```
+## Execute test ejemplo.bb
+```
+/BB/.classes$ java -jar .\BB.jar ..\ejemplo.bb
 ```

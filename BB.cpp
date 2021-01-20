@@ -66,6 +66,7 @@ int main ( int argc, char const *argv[] ) {
 	mi_lista.pop_back();
 	mi_lista.front();
 	mi_lista.back();
+	mi_lista[2];
 	for(int64_t x = 10; x < mi_lista.size(); x += 2){
 		std::wcout <<  L"BB es lo máximo"  << std::endl;
 	}

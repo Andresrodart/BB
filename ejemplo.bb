@@ -39,6 +39,7 @@ entero principal():
 	mi_lista.desapila()
 	mi_lista.frente
 	mi_lista.cola
+	mi_lista[2]
 	para entero x = 10 hasta x < mi_lista.tamaño() incrementando 2:
 		imprime('BB es lo máximo')
 	entero sum = suma(2, a)

@@ -239,8 +239,14 @@ public class Emisor extends BBBaseListener{
 		for (BBParser.MetodoContext metodo : ctx.metodo()) buf.append(getSTR(metodo));
 		setSTR(ctx, buf.toString());
 	}
+	public void exitAcceso_arreglo(BBParser.Acceso_arregloContext ctx){
+		setSTR(ctx, ctx.getText());
+	}
 	public void exitEtiqueta_de_llamada_a_metodo(BBParser.Etiqueta_de_llamada_a_metodoContext ctx) { 
 		setSTR(ctx, getSTR(ctx.llamada_a_metodo()));
+	}
+	public void exitEtiqueta_de_acceso_arreglo(BBParser.Etiqueta_de_acceso_arregloContext ctx){
+		setSTR(ctx, getSTR(ctx.acceso_arreglo()));
 	}
 	public void exitDeclaracion_de_funcion(BBParser.Declaracion_de_funcionContext ctx) {
 		BBParser.BloqueContext bctx = ctx.bloque();

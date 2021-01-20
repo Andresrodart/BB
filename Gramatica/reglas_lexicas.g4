@@ -31,6 +31,8 @@ ES_IGUAL						: '==' | ES;
 OP_LOGICO						: '<'|'>'|'>='|'<='|'!=' | NO | O | Y | ES_IGUAL |NO 'es';
 PARENTESISapertura 				: '(' ;
 PARENTESIScierre   				: ')' ;
+CORCHETE_APERTURA				: '[' {opened++;};
+CORCHETE_CIERRE					: ']' {opened--;};
 
 /*Operadores artiméticos*/ 
 SUMA               				: '+' ;

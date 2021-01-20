@@ -173,11 +173,14 @@ funcion_recibe					: '('? parametros ')'? '=' 'recibe' '(' mensaje=TEXTO? ')';
 
 llamada_a_metodo				: IDENTIFICADOR metodo+;
 
+acceso_arreglo					: IDENTIFICADOR '[' expresion ']';
+
 metodo							: METODO metodo_miembro?;
 
 metodo_miembro					: '(' parametros? ')';
 
 expresion						: llamada_a_metodo															#etiqueta_de_llamada_a_metodo
+								| acceso_arreglo															#etiqueta_de_acceso_arreglo
 								| identificador '(' parametros? ')'											#etiqueta_de_llamada_a_funcion
 								| izquierda=expresion operador=(DIVISION|ASTERISRCO) derecha=expresion		#etiqueta_multiplicacion_division	
 								| izquierda=expresion operador=(SUMA|RESTA) derecha=expresion        		#etiqueta_suma__resta
